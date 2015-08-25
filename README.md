@@ -19,7 +19,7 @@ with no counterparty risk.
 To run BitVideo, just serve the root directory using any web server.
 For example:
 ```
-cd streamium/
+cd bitvideo/
 bower install
 npm install
 node server.js &
