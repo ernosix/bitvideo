@@ -1,0 +1,125 @@
+<header>
+  <!-- STICKY NAVIGATION -->
+  <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+
+        <!-- LOGO -->
+        <a class="navbar-brand" href="#">
+          <img src="/assets/img/logo-nav.png" alt="">
+        </a>
+      </div>
+
+      <!-- TOP BAR -->
+      <div class="navbar-collapse collapse" id="stamp-navigation">
+
+        <!-- NAVIGATION LINK -->
+
+      </div>
+    </div>
+    <!-- /END CONTAINER -->
+
+  </div>
+  <!-- /END STICKY NAVIGATION -->
+
+  <!-- =========================
+  SECTION: Container
+  ============================== -->
+</header>
+<div class="container content-pg">
+  <div class="row card space-top">
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0 "
+      ng-show="displayRefund">
+      <div class="bg-warning center">
+        The provider ended the stream unexpectedly (disconnected without notice).
+        To recover your funds, broadcast the refund transaction below in 24 hours,
+        (using <a href="https://blockchain.info/pushtx">https://blockchain.info/pushtx</a>).
+        <textarea cols=50>
+          {{ refundTx }}
+        </textarea>
+        <br />
+        Note this transaction is time-locked using nLockTime, so it will only be valid in 24 hours. 
+        You won't be able to broadcast it now.
+      </div>
+    </div>
+    <div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0 ">
+      <div class="page-header">
+        <h2>Payment overview</h2>
+      </div>
+      
+      <dl class="dl-horizontal">
+        <dt>Spent:</dt>
+        <dd>{{spent | SATOSHIS2USD}} USD ({{spent}} satoshis)</dd>
+      </dl>
+
+      <dl class="dl-horizontal">
+        <dt>Change:</dt>
+        <dd>{{change | SATOSHIS2USD}} USD ({{change}} satoshis)</dd>
+      </dl>
+
+      <dl class="dl-horizontal">
+        <dt>Transactions:</dt>
+        <dd><a href="{{addressUrl}}">{{contractAddress}}</a></dd>
+      </dl>
+
+
+      <div class="text-center">
+        <strong>Did you like it?</strong> Share your experience: 
+        <ul class="social-icons font-big">
+          <li>
+            <a target="_blank" href="http://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=http://streamium.io/&amp;p[title]=I've just used Streamium.io"><span class="icon-social-facebook"></span></a>
+          </li>
+          <li>
+            <a href="https://twitter.com/intent/tweet?text=I%27ve%20just%20used%20Streamium.io&url=http%3A%2F%2Fstreamium.io"><span class="icon-social-twitter"></span></a>
+          </li>
+        </ul>
+      </div>
+
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <p>Show your love and donate to: <a href="bitcoin:3PNpvbnDoJRN6wmkWTq3NNxWURcqLtBFLt">3PNpvbnDoJRN6wmkWTq3NNxWURcqLtBFLt</a></p>
+
+      <h3>Transaction technical details</h3>
+      <button class="btn" ng-click="showTech = 1" ng-hide="showTech">Show</button>
+      <div ng-show="showTech" class="center">
+        <dl class="dl-horizontal">
+          <dt>Commitment Transaction:</dt>
+          <dd>
+            <textarea cols=50>
+              {{ commitmentTx }}
+            </textarea>
+          </dd>
+        </dl>
+        
+        <dl class="dl-horizontal">
+          <dt>Refund Transaction:</dt>
+          <dd>
+            <textarea cols=50>
+              {{ refundTx }}
+            </textarea>
+          </dd>
+        </dl>
+        
+        <dl class="dl-horizontal">
+          <dt>Contract Address:
+          <dd>{{ contractAddress }}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Funding private key:</dt>
+          <dd>{{ fundingKey }}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Contract private key:</dt>
+          <dd>{{ privkey }}</dd>
+        </dl>
+        <dl class="dl-horizontal">
+          <dt>Server public key
+          <dd>{{ serverPubkey }}</dd>
+        </dl>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

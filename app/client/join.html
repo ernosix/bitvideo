@@ -1,0 +1,176 @@
+
+<div class="background">
+  <!-- =========================
+  SECTION: HOME / HEADER
+  ============================== -->
+  <header>
+    <!-- STICKY NAVIGATION -->
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+
+          <!-- LOGO -->
+          <a class="navbar-brand" href="/">
+            <img src="/assets/img/logo-nav.png" alt="">
+          </a>
+        </div>
+
+        <!-- TOP BAR -->
+        <div class="navbar-collapse collapse" id="stamp-navigation">
+        </div>
+      </div>
+      <!-- /END CONTAINER -->
+
+    </div>
+    <!-- /END STICKY NAVIGATION -->
+  </header>
+
+  <!-- =========================
+  SECTION: Container
+  ============================== -->
+  <div class="container content-pg space-top">
+
+  <div class="row card space-top" ng-show="client.status == 'connecting'" ng-hide="nowebrtc">
+    <div class="col-sm-2 center">
+      <h2><span class="glyphicon glyphicon-hourglass"></span></h2>
+    </div>
+    <div class="col-sm-10 text-center">
+      <h2>Connecting to {{stream.name}}...</h2>
+    </div>
+  </div>
+
+	<div class="row card space-top" ng-show="nowebrtc">
+		<div class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-xs-12 col-xs-offset-0 ">
+			<div class="page-header">
+				<h2>Join this Stream</h2>
+			</div>
+			<div class="text-center">
+        		<h4>
+              You're using a web browser we don't support.
+              Mind trying again using <a href="https://www.google.com/chrome/">Chrome</a> or
+              <a href="https://www.mozilla.org/en-US/firefox/new/">Firefox</a>?</h4>
+            <h4></h4>
+			</div>
+
+		</div>
+	</div>
+
+  <div class="row card space-top" ng-show="error">
+    <div class="col-sm-2 center">
+      <h2><span class="glyphicon glyphicon-flash"></span></h2>
+    </div>
+    <div class="col-sm-10">
+      <h2>{{error}}</h2>
+    </div>
+    <div class="col-sm-2 center">
+    </div>
+    <div class="col-sm-12 center">
+      <h4>Did you know you can start streaming too? <a href="/">Try it now</a></h4>
+    </div>
+  </div>
+
+  <div class="row" ng-show="client.status === 'funding'">
+    <div class="col-sm-12 col-md-8 col-md-offset-2 join-container">
+      <div class="join-card-title">
+        Join <strong>{{stream.name}}</strong>
+      </div>
+      <div class="join-card" ng-hide="funds">
+        <div class="row">
+          <div class="col-md-12 center">
+            <span class="join-title">
+              I want to watch
+            </span>
+          </div>
+          <div class="col-md-4 col-md-offset-4">
+            <select
+              id="join-select"
+              name="minutes" required
+              class="borderless"
+              ng-model="stream.minutes"
+              ng-options="val + ' minutes' for val in minutes"/>
+          </div>
+        </div>
+        <p class="rate">
+          {{stream.name}} charges <strong>{{client.rate * 60.0|BTC2USD}} USD</strong> per hour
+        </p>
+        <div class="row" style="margin-top: 20px" ng-hide="funds">
+          <div class="col-sm-3 col-md-3 col-sm-offset-1">
+            <a href="{{payUrl}}">
+              <qr text="'bitcoin:' + fundingAddress + '?amount=' + (stream.minutes * client.rate).toFixed(8)" ng-show="fundingAddress"></qr>
+            </a>
+          </div>
+          <div class="col-sm-7">
+            <div class="funding-address">
+              <p>
+                <span class="join-amount-title">
+                  Send
+                </span>
+                <span class="join-amount">
+                  {{(stream.minutes * client.rate).toFixed(4)}} BTC
+                </span>
+                <span class="join-amount-usd">
+                  {{(stream.minutes * client.rate)|BTC2USD}} USD
+                </span>
+              </p>
+              <p>
+                <span class="join-amount-title">
+                  To
+                </span>
+                <span class="join-amount-address">
+                  {{fundingAddress}}
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="join-card" ng-show="funds">
+        <div class="row">
+          <div class="col-sm-12 center">
+            <ul class="checkmark join-fund-confirm">
+              <li>Transaction received</li>
+            </ul>
+            <p>
+              {{(funds|SATOSHIS2BTC).toFixed(4)}} BTC
+              for
+              {{fundedMinutes.toFixed(0)}} minutes
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="join-card">
+        <div class="row center">
+          <div class="col-md-8 col-md-offset-2">
+            <p class="join-1-explain">
+              <span ng-hide="funds">You</span>
+              <span ng-show="funds">Remember, you</span>
+            will only be charged per minute watched. </p>
+          </div>
+          <div class="col-md-8 col-md-offset-2">
+            Unused funds will be sent back to <span ng-hide="funds">you.</span>
+            <span ng-show="funds && !changeRefund"> <a href="#" class="softlink" ng-click="changeRefund = true">
+              your address</a>.</span>
+          </div>
+        </div>
+        <div class="row center" ng-show="funds && changeRefund">
+          <div class="col-sm-8 col-sm-offset-2">
+            <input type="text" name="change" id="join-changeAddress" ng-model="client.change"
+              placeholder="bitcoin change address" valid-address required>
+          </div>
+        </div>
+        <div class="row center" id="join-button">
+          <form name="form" ng-submit="submit()" class="form-horizontal" role="form" novalidate ng-hide="client.status === 'connecting' || error">
+            <input type="hidden" name="funded" ng-model="funded" required>
+            <input type="hidden" name="change" ng-model="client.change" required validAddress>
+            <div class="col-sm-4 col-sm-offset-4 center">
+              <button type="submit" ng-disabled="form.$invalid || form.change.$invalid" class="btn btn-success btn-lg btn-full">
+                {{(!funded)?'Waiting for funds...':(form.change.$invalid?'Setting up...':'Join Now')}}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

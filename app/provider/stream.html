@@ -1,0 +1,114 @@
+<div class="background">
+  <!-- =========================
+	SECTION: HOME / HEADER
+	============================== -->
+  <header>
+    <!-- STICKY NAVIGATION -->
+    <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="/">
+            <img src="/assets/img/logo-nav.png" alt="Streamium">
+          </a>
+        </div>
+        <button type="button" class="navbar-right btn btn-navbar btn-info btn-xs" ng-click="end()">
+          End &amp; Cashout
+        </button>
+
+      </div>
+      <!-- /END CONTAINER -->
+
+    </div>
+    <!-- /END STICKY NAVIGATION -->
+  </header>
+
+  <!-- =========================
+	SECTION: Container
+	============================== -->
+  <div class="container content-pg">
+
+
+    <div class="row card space-top" ng-show="requiresApproval">
+      <div class="col-sm-2 center">
+        <h2>
+          <span class="glyphicon glyphicon-arrow-up"></span>
+          <span class="glyphicon glyphicon-facetime-video"></span>
+        </h2>
+      </div>
+      <div ng-hide="castType === 'webcam'">
+        <h2>Please allow Streamium to use the camera.</h2>
+      </div>
+      <div ng-show="castType === 'screen'">
+        <h3>Please allow Streamium to cast your desktop.</h3>
+        <h4 ng-show="isChrome" id="chromeinstall">
+          If you haven't already, <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">install this Chrome Extension</a> and restart 
+        </h4>
+        <h4 ng-show="isFirefox" id="firefoxinstall">
+          If you haven't already, <a href="/assets/firefox-extension.xpi" target="_blank">install this Firefox Extension</a> and then refresh this page.
+        </h4>
+      </div>
+    </div>
+
+    <div class="row space-top" ng-hide="requiresApproval">
+      <div class="col-md-12">
+        <span class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 card text-center">
+          <span class="glyphicon glyphicon-facetime-video"></span> &nbsp;Share this link with your viewers: <a target="_blank" href="{{client.getLink()}}">{{client.getLink()}}</a>
+        <a twitter data-text="Join my #streamium channel '{{name}}' at" data-url="{{client.getLink()}}"></a>
+        </span>
+      </div>
+    </div>
+
+    <div class="row video" ng-hide="requiresApproval || (castType === 'static')">
+      <div class="row-same-height">
+        <video class="col-md-8 col-xs-height col-full-height stream-video" id="video" muted="true" ng-src="{{videoSrc}}" autoplay></video>
+
+        <div class="hidden-xs hidden-sm col-md-4 col-xs-height col-full-height card chat">
+          <h1 class="truncate">
+            <span class="circle" style="background-color: {{PROVIDER_COLOR}};"/>{{name}}</h1>
+          <ul class="messages" scroll-glue>
+            <li style="font-size: 0.9em; color: #313131; line-height: 25px;">Congratulations on creating your stream! <span ng-hide="switched || (castType === 'screen')">Did you know you can share your screen instead of your webcam?</span></li>
+            <li ng-repeat="m in messages"><span class="circle" style="background-color: {{m.color || PROVIDER_COLOR}};" />{{m.text}}</li>
+          </ul>
+          <div class="input">
+            <form name="form" ng-submit="chat()">
+              <input type="text" ng-model="message" required/>
+              <button class="btn btn-info" type="submit" ng-disabled="!message">Send</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-hide="requiresApproval || (castType === 'static')">
+      <div class="col-sm-1 col-md-2 col-xs-12" style="margin-left: -15px">
+        <a ng-hide="switched || (castType === 'webcam')" href="#" ng-click="switchScreen()" class="btn btn-info">
+          Switch to screen<br/> sharing mode</a>
+        <a ng-hide="switched || (castType === 'screen')" href="#" ng-click="switchScreen()" class="btn btn-info">
+          Switch to sharing<br/> your webcam</a>
+      </div>
+
+      <div class="col-sm-6 col-sm-offset-2 col-md-6 col-md-offset-2 col-xs-12 col-xs-offset-0 ">
+        <div class="row">
+          <div class="col-md-5 col-sm-8 col-xs-6 stream-data">
+            <ul class="list-unstyled">
+              <li>
+                Earned so far: {{client.totalMoney | SATOSHIS2BTC}} BTC
+              </li>
+              <li>
+                {{client.rate / 60.0|number:8}} BTC/sec
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6 col-sm-4 col-xs-6 stream-data">
+            <ul class="list-unstyled">
+              <li><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{client.getConnected() }}</li>
+              <li>
+                ({{client.rate * 60|BTC2USD}} $/hour)
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
