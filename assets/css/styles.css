@@ -1395,3 +1395,7 @@ strong,
 .orange {
     color: #ffcc00;
 }
+
+.btn-primary {
+    background: #33a6cc;
+}
