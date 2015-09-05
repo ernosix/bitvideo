@@ -9,3 +9,4 @@ README.html
 *.log
 *.sw[a-z]
 testnet/
+/nbproject/private/
