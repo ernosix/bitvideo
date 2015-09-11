@@ -15,12 +15,12 @@ var config = {
   peerServers: [
     {
       key: 'peerjs',
-      host: 'localhost',
+      host: 'bitvideo.com',
       port: 9000,
     },
     {
       key: 'peerjs',
-      host: 'localhost',
+      host: 'bitvideo.com',
       port: 9000,
     }
   ],
