@@ -8,7 +8,7 @@
       <div class="container">
         <div class="navbar-header">
           <a class="navbar-brand" href="/">
-            <img src="/assets/img/logo-nav.png" alt="Streamium">
+            <img src="/assets/img/logo-nav.png" alt="bitVideo">
           </a>
         </div>
         <button type="button" class="navbar-right btn btn-navbar btn-info btn-xs" ng-click="end()">
@@ -36,10 +36,10 @@
         </h2>
       </div>
       <div ng-hide="castType === 'webcam'">
-        <h2>Please allow Streamium to use the camera.</h2>
+        <h2>Please allow bitVideo to use the camera.</h2>
       </div>
       <div ng-show="castType === 'screen'">
-        <h3>Please allow Streamium to cast your desktop.</h3>
+        <h3>Please allow bitVideo to cast your desktop.</h3>
         <h4 ng-show="isChrome" id="chromeinstall">
           If you haven't already, <a href="https://chrome.google.com/webstore/detail/screen-capturing/ajhifddimkapgcifgcodmmfdlknahffk" target="_blank">install this Chrome Extension</a> and restart 
         </h4>
@@ -53,7 +53,7 @@
       <div class="col-md-12">
         <span class="col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-xs-12 col-xs-offset-0 card text-center">
           <span class="glyphicon glyphicon-facetime-video"></span> &nbsp;Share this link with your viewers: <a target="_blank" href="{{client.getLink()}}">{{client.getLink()}}</a>
-        <a twitter data-text="Join my #streamium channel '{{name}}' at" data-url="{{client.getLink()}}"></a>
+        <a twitter data-text="Join my #bitVideo channel '{{name}}' at" data-url="{{client.getLink()}}"></a>
         </span>
       </div>
     </div>
